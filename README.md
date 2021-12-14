@@ -7,13 +7,18 @@
 ![image](https://user-images.githubusercontent.com/72666141/146067330-2a6c44c5-90c2-4ba4-8756-0cb35ec16057.png)
 
 2.按鈕功能load Input Image、Image Stitching、Save Output Image、Quit、Reset：
-	a.load Input Image：按下load按鈕，可以選擇檔案並讀取進使用者介面中，讀取的圖片能夠依序放到介面上(或按下CTRL + F)
-	b.Image Stitching：按下merge按鈕，將讀取的所有圖片，經過演算法計算，將照片合成一張大圖片，結果需要顯示在gui介面中((或按下CTRL + M)
-	c.Save Output Image：按下save按鈕，儲存經過拼接後的圖片(或按下CTRL + S)
-	d.Quit：按下quit按鈕，退出程式(或按下CTRL + Q)
-	e.Reset：按下reset按鈕重置(或按下CTRL + R)
-	f.Cut：按下cut按鈕為選取ROI部分，需要先調整滑動條看要原圖多少比例需求(或按下CTRL + C)
-	(另外在GUI最上面有添加menu，包含以上全部內容）
+	a. load Input Image：按下load按鈕，可以選擇檔案並讀取進使用者介面中，讀取的圖片能夠依序放到介面上(或按下CTRL + F)
+	b. Image Stitching：按下merge按鈕，將讀取的所有圖片，經過演算法計算，將照片合成一張大圖片，結果需要顯示在gui介面中((或按下CTRL + M)
+	c. Save Output Image：按下save按鈕，儲存經過拼接後的圖片(或按下CTRL + S)
+	d. Quit：按下quit按鈕，退出程式(或按下CTRL + Q)
+	e. Reset：按下reset按鈕重置(或按下CTRL + R)
+	f. Cut：按下cut按鈕為選取ROI部分，需要先調整滑動條看要原圖多少比例需求(或按下CTRL + C)
+
+
+https://user-images.githubusercontent.com/72666141/146067745-4387c51a-a45b-4cbb-a979-1c8e943e5c9b.mp4
+
+	
+3. 添加menu功能實現第二點全部的案件功能
 
 3.Image Stitching：影像拼接的功能，可拼接的圖片數量及最終效果。
 	Image Stitching：在處理ROI部分為自己實做，內容包含如何通過滑動條選取所需比例對圖片進行分割，且顯示所分割出的圖片在GUI中(第二層box中按下cut按鈕後有不同顏色框起來的部分)，讓使用者好觀察，另外不同圖片數量合成時可以選擇不同的比例，功能為減少合成時間，另外部分使用opencv3.4.16的Stitching函式(因為考慮到最終結果會是評量標準，而自己實做的部分效果較不佳），影片2是為了說明ROI的功能正常，選取的比例會影響演算法處理的時間（選取100%與50%進行比較，合成時間減少大約一半）
