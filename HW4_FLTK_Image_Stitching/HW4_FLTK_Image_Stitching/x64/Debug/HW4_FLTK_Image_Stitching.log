@@ -1,0 +1,19 @@
+﻿  HW4_FLTK_Image_Stitching.cpp
+C:\opencv\build\include\opencv2\calib3d.hpp(1,1): warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(138,29): warning C4244: '正在初始化': 將 'int64' 轉換為 'double'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(163,29): warning C4244: '正在初始化': 將 'int64' 轉換為 'double'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(207,37): warning C4244: '正在初始化': 將 'int64' 轉換為 'double'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(224,37): warning C4244: '正在初始化': 將 'int64' 轉換為 'double'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(241,37): warning C4244: '正在初始化': 將 'int64' 轉換為 'double'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(258,37): warning C4244: '正在初始化': 將 'int64' 轉換為 'double'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(320,17): warning C4101: 'save_file_name': 未參考的區域變數
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(328,28): warning C4244: '正在初始化': 將 'int64' 轉換為 'double'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(344,27): warning C4244: '正在初始化': 將 'int64' 轉換為 'double'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(399,25): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(430,25): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(462,25): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(493,25): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(525,25): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(555,25): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching\HW4_FLTK_Image_Stitching.cpp(589,32): warning C4244: '正在初始化': 將 'int64' 轉換為 'double'，由於類型不同，可能導致資料遺失
+  HW4_FLTK_Image_Stitching.vcxproj -> C:\Users\Lin\Desktop\609410151_v3 (2)\HW4_FLTK_Image_Stitching\x64\Debug\HW4_FLTK_Image_Stitching.exe
