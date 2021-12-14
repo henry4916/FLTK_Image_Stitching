@@ -24,6 +24,10 @@ https://user-images.githubusercontent.com/72666141/146067745-4387c51a-a45b-4cbb-
 	* CTRL + S -> 儲存經過拼接後的圖片
 	* CTRL + Q -> 退出程式
 
+
+https://user-images.githubusercontent.com/72666141/146068938-18ff69f4-3078-46a7-af5a-cf6a2868bd70.mp4
+
+
 #### 4. Save Output Image：儲存圖片，可以通過修改路徑，而不是單純儲存固定名稱到指定路徑
 
 #### 5. Text panel：Text panel的功能顯示提示，並將該步驟的耗時顯示在畫面上。
