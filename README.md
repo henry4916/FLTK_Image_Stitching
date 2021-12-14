@@ -1,7 +1,7 @@
-# HW4_FLTK_Image_Stitching
-HW4_FLTK_Image_Stitching
-
-指定作業內容：
+# FLTK_Image_Stitching
+## Computational-Photography_HW3
+### 環境設定：FLTK1.3.5 opencv3.1.16
+### 指定作業內容：
 	1.建立一個GUI介面，能夠顯示Load進來的圖片、影像拼接後的結果、Text panel以及可供操作的按鈕
 		GUI介面：包含顯示讀取圖片、顯示執行結果、功能按鈕的配置、Text panel配置。
 
