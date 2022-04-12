@@ -1,9 +1,4 @@
-﻿// Image_Stitch_With_Matchtemplate.cpp
-// 環境：VS2017 + OpenCV4.4.0
-// 功能：基於模板匹配的圖像圖形
-// 特點：圖像有重合區域，且等待圖像之間無明顯變化和變化
-
-#include "pch.h"
+﻿#include "pch.h"
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <FL/Fl.h>
