@@ -68,7 +68,7 @@ bool img_box4 = false;
 double overlap = 0.8;
 vector<Mat> imgs;
 Fl_Menu_Bar* menu_bar;
-vector <Rect> tmpRect;
+vector <Rect> tmp_rect;
 vector<vector<Rect>> rois;
 double overlap12 = 0;
 double overlap23 = 0;
@@ -96,6 +96,7 @@ void sld_img12_cb(Fl_Widget* w);
 void sld_img23_cb(Fl_Widget* w);
 void sld_img34_cb(Fl_Widget* w);
 
+// Fl_Menu_Item為FLTK函式庫，目的建立使用者界面中最上面選單
 Fl_Menu_Item menuitems[] = {
     {"&File", 0, 0, 0, FL_SUBMENU},
     {"File_&Selector...", FL_CTRL + 'f',(Fl_Callback*)btn_load_cb},
@@ -111,38 +112,45 @@ Fl_Menu_Item menuitems[] = {
     {0}
 };
 
+/* 使用者介面最上面有按鈕是 about */
 void cb_about()
 {
     fl_message("HW4_FLTK_Image_Stitching_609410151.");
 }
 
+/* 調用 FileChooser_cb 函數 */
 void btn_load_cb(Fl_Widget* w, void* p)
 {
     fc.callback(FileChooser_cb);
     fc.show();
 }
 
+/* 對圖片進行合併 */
 void btn_merge_cb(Fl_Widget* w, void* p)
 {
+    // 沒有用處
     Fl_Button* o1 = (Fl_Button*)w;
+    // 要將合併完的圖片放到哪個 box 內
     Fl_Box* o2 = (Fl_Box*)img_merge_box;
+    // 存儲合併完的圖片
     Mat result_img;
 
-
-
+    // 計算合併圖片所需時間的起始
     double merge_time_start = getTickCount();
+    // 進行圖片合併處理
     result_img = image_merge(str1, str2, str3, str4);
-
+    // 存儲合併結果
     imwrite("result.bmp", result_img);
 
+    // 將合併結果更新到 box 上面
     currentFilename = "result.bmp";
     Fl_BMP_Image* bmp_img = new Fl_BMP_Image(currentFilename);
     Fl_Image* bmp_img2 = bmp_img->copy(1000, 400);
     o2->image(bmp_img2);
     o2->redraw();
 
+    // 更新文字提示框
     buffer->append("Merge picture completed\n");
-
     double merge_time_total = ((double)getTickCount() - merge_time_start) / getTickFrequency();
     buffer->append("Time:");
     string merge_time_total_string = to_string(merge_time_total);
@@ -152,12 +160,17 @@ void btn_merge_cb(Fl_Widget* w, void* p)
     display->buffer(buffer);
 }
 
+/* 重置 */
 void btn_reset_cb(Fl_Widget* w, void* p)
 {
+    // 更新文字顯示框
     buffer->append("Program reset\n");
+    // 計算重置起始時間
     double reset_time_start = getTickCount();
+    // 進行 box 重置
     gui_box_reset(img_ori_box_ori1, img_ori_box_ori2, img_ori_box_ori3, img_ori_box_ori4, img_merge_box);
     currentFilename = "./white.bmp";
+    // 資源重置
     img_ori1.release();
     img_ori2.release();
     img_ori3.release();
@@ -174,9 +187,9 @@ void btn_reset_cb(Fl_Widget* w, void* p)
     img_box4 = false;
 
     imgs.clear();
-    tmpRect.clear();
+    tmp_rect.clear();
     rois.clear();
-
+    // 更新文字提示框內容顯示重置時間
     double reset_time_total = ((double)getTickCount() - reset_time_start) / getTickFrequency();
     buffer->append("Time:");
     string reset_time_total_string = to_string(reset_time_total);
@@ -188,20 +201,31 @@ void btn_reset_cb(Fl_Widget* w, void* p)
     display->buffer(buffer);
 }
 
+/* 實現選擇檔案功能 */
 void FileChooser_cb(Fl_File_Chooser* fc, void* data)
 {
+    // 獲得從選擇器中選擇的文件名列表
     for (int i = 1; i <= fc->count(); i++)
     {
         currentFilename = fc->value(i);
     }
 
+    // 對選擇的路徑讀取圖片
     Fl_BMP_Image* bmp_img_btn = new Fl_BMP_Image(currentFilename);
+    // 暫存一張圖片
     Fl_Image* bmp_img_btn2 = bmp_img_btn->copy(400, 200);
+
+    /* 接下來需要按照順序對每個 box 進行順序讀取 */
+    // 如果第一個 box 為空就先讀入第一個 box，依次類推
     if (!img_box1)
     {
+        // 因為需要計算每個圖片讀取時間，先建立一個 img1 讀取的起始時間
         double load_img1_time_start = getTickCount();
+        // 讀取圖片
         img_ori1 = imread(currentFilename);
+        // 記錄第一張圖片讀取的路徑，其他函數會使用
         str1 = currentFilename;
+        // 更新文字提示框內容，更新讀取多少時間
         buffer->append("Loading image 1\n");
         double load_img1_time_total = ((double)getTickCount() - load_img1_time_start) / getTickFrequency();
         buffer->append("Time:");
@@ -210,7 +234,9 @@ void FileChooser_cb(Fl_File_Chooser* fc, void* data)
         buffer->append(load_img1_time_total_char);
         buffer->append("\n\n");
         display->buffer(buffer);
+        // 更新目的為img1已經讀取圖片
         img_box1 = true;
+        // 將圖片更新到 box1 上
         img_ori_box_ori1->image(bmp_img_btn2);
         img_ori_box_ori1->redraw();
     }
@@ -265,15 +291,18 @@ void FileChooser_cb(Fl_File_Chooser* fc, void* data)
         img_ori_box_ori4->image(bmp_img_btn2);
         img_ori_box_ori4->redraw();
     }
-
 }
 
+/* 圖片合併 */
 Mat image_merge(string img1_filename, string img2_filename, string img3_filename, string img4_filename)
 {
+    // 創建一個拼接容器
     Stitcher stitcher = Stitcher::createDefault(try_use_gpu);
-    
+
+    // 在img43_cut等函式中將圖片放入imgs
+    // 在img43_cut等函式中將圖片放入rois
     Stitcher::Status status = stitcher.stitch(imgs, rois, merge_img);
-    stitcher.setFeaturesFinder(new detail::SiftFeaturesFinder());
+    //stitcher.setFeaturesFinder(new detail::SiftFeaturesFinder());
 
     if (status != Stitcher::OK)
     {
@@ -284,8 +313,10 @@ Mat image_merge(string img1_filename, string img2_filename, string img3_filename
     return merge_img;
 }
 
+/* 對 box 進行重置 */
 void gui_box_reset(Fl_Box* img_ori_box_ori1, Fl_Box* img_ori_box_ori2, Fl_Box* img_ori_box_ori3, Fl_Box* img_ori_box_ori4, Fl_Box* img_merge_box)
 {
+    // 將全白圖進行覆蓋
     Fl_BMP_Image* bmp_img = new Fl_BMP_Image("white.bmp");
     Fl_Image* bmp_img2 = bmp_img->copy(390, 200);
     img_ori_box_ori1->image(bmp_img2);
@@ -309,6 +340,7 @@ void gui_box_reset(Fl_Box* img_ori_box_ori1, Fl_Box* img_ori_box_ori2, Fl_Box* i
     img_merge_box->redraw();
 }
 
+/* 將結果進行存儲到指定路徑 */
 void btn_save_cb(Fl_Widget* w)
 {
     Fl_File_Chooser* fc_save_img = new Fl_File_Chooser("./save_img/", "/", Fl_File_Chooser::DIRECTORY, "File Chooser save image");
@@ -317,6 +349,7 @@ void btn_save_cb(Fl_Widget* w)
     fc_save_img->show();
 }
 
+/* 離開程式 */
 void btn_quit_cb(Fl_Widget* w)
 {
     buffer->append("Quit\n");
@@ -333,28 +366,38 @@ void btn_quit_cb(Fl_Widget* w)
     exit(1);
 }
 
+/* 對選擇圖片進行切割 */
 void cut_image(string img1_filename, string img2_filename, string img3_filename, string img4_filename)
 {
+    // 更新文字提示框與記錄切割所需初始時間
     buffer->append("Image cut\n");
     double cut_time_start = getTickCount();
-
-
+    // 讀取圖片
     img1 = imread(img1_filename);
     img2 = imread(img2_filename);
     img3 = imread(img3_filename);
     img4 = imread(img4_filename);
+    // 沒有用處
     int img_num = 0;
-
     cout << img1.cols << endl;
+    // 確定讀取多少圖片
+    // 有四張圖片
     if (!img1.empty() && !img2.empty() && !img3.empty() && !img4.empty())
     {
         int img_num = 4;
+        // 能存放多少元素
         rois.resize(img_num);
+        // 對第一張圖右邊進行切割
         img1_cut(img_num);
+        // 對第二張圖左邊進行切割
         img12_cut(img_num);
+        // 對第二張圖右邊進行切割
         img23_cut(img_num);
+        // 對第三張圖左邊進行切割
         img32_cut(img_num);
+        // 對第三張圖右邊進行切割
         img34_cut(img_num);
+        // 對第四張圖左邊進行切割
         img43_cut(img_num);
     }
     else if (!img1.empty() && !img2.empty() && !img3.empty())
@@ -374,6 +417,7 @@ void cut_image(string img1_filename, string img2_filename, string img3_filename,
         img12_cut(img_num);
     }
 
+    // 計算切割時間並更新
     double cut_time_total = ((double)getTickCount() - cut_time_start) / getTickFrequency();
     buffer->append("Time:");
     string cut_time_total_string = to_string(cut_time_total);
@@ -400,9 +444,9 @@ void img43_cut(int img_num)
     Mat img43_tmp;
     img4(rect43).copyTo(roi43);
     img4.copyTo(img43_tmp);
-    tmpRect.push_back(rect43);
-    rois[3] = (tmpRect);
-    tmpRect.clear();
+    tmp_rect.push_back(rect43);
+    rois[3] = (tmp_rect);
+    tmp_rect.clear();
     rectangle(img43_tmp, rect43, Scalar(255, 0, 0), 8);
     imwrite("./img_tmp/img43_draw.bmp", img43_tmp);
     string s_tmp43 = "./img_tmp/img43_draw.bmp";
@@ -431,9 +475,9 @@ void img34_cut(int img_num)
     Mat img34_tmp;
     img3(rect34).copyTo(roi34);
     img3.copyTo(img34_tmp);
-    tmpRect.push_back(rect34);
-    rois[2] = (tmpRect);
-    tmpRect.clear();
+    tmp_rect.push_back(rect34);
+    rois[2] = (tmp_rect);
+    tmp_rect.clear();
     Mat img23_tmp = imread("./img_tmp/img32_draw.bmp");
     rectangle(img23_tmp, rect34, Scalar(255, 0, 0), 8);
     imwrite("./img_tmp/img34_draw.bmp", img23_tmp);
@@ -463,9 +507,9 @@ void img32_cut(int img_num)
     Mat img32_tmp;
     img3(rect32).copyTo(roi32);
     img3.copyTo(img32_tmp);
-    tmpRect.push_back(rect32);
-    rois[2] = (tmpRect);
-    tmpRect.clear();
+    tmp_rect.push_back(rect32);
+    rois[2] = (tmp_rect);
+    tmp_rect.clear();
     rectangle(img32_tmp, rect32, Scalar(0, 0, 255), 8);
     imwrite("./img_tmp/img32_draw.bmp", img32_tmp);
     string s_tmp32 = "./img_tmp/img32_draw.bmp";
@@ -494,9 +538,9 @@ void img23_cut(int img_num)
     Mat img23_tmp;
     img2(rect23).copyTo(roi23);
     img2.copyTo(img23_tmp);
-    tmpRect.push_back(rect23);
-    rois[1] = (tmpRect);
-    tmpRect.clear();
+    tmp_rect.push_back(rect23);
+    rois[1] = (tmp_rect);
+    tmp_rect.clear();
     Mat img12_tmp = imread("./img_tmp/img12_draw.bmp");
     rectangle(img12_tmp, rect23, Scalar(0, 0, 255), 8);
     imwrite("./img_tmp/img23_draw.bmp", img12_tmp);
@@ -526,9 +570,10 @@ void img12_cut(int img_num)
     Mat img12_tmp;
     img2(rect12).copyTo(roi12);
     img2.copyTo(img12_tmp);
-    tmpRect.push_back(rect12);
-    rois[1] = (tmpRect);
-    tmpRect.clear();
+    // tmp_rect用來存放
+    tmp_rect.push_back(rect12);
+    rois[1] = (tmp_rect);
+    tmp_rect.clear();
     rectangle(img12_tmp, rect12, Scalar(0, 255, 255), 8);
     imwrite("./img_tmp/img12_draw.bmp", img12_tmp);
     string s_tmp12 = "./img_tmp/img12_draw.bmp";
@@ -540,25 +585,35 @@ void img12_cut(int img_num)
     img_ori_box_cut2->redraw();
 }
 
+/* 對第一張圖右邊進行切割 */
 void img1_cut(int img_num)
 {
     int x_coordinate = 0;
-    // Image 1 操作
+    // 將img1 然如 vector 中
     imgs.push_back(img1);
 
-    //x坐標做overlap
+    // 計算切割的 x 起點
+    // 計算方式：column的總長乘上需要多少比例去剪掉column的總長
     x_coordinate = round((double)(imgs[0].cols) * overlap12);
+    // 全部剪掉需要比例 = x，後面再全部剪掉 x ，等於需要比例
+    // ex：全部100，要60%，現在x=40，往下五行會將全部在剪掉x，得到60
     x_coordinate = imgs[0].cols - x_coordinate;
 
-    //選擇rect
+    // 計算分割的大小 rect 坐標 (最左上 , 最右下)
     Rect rect1(x_coordinate, 0, imgs[0].cols - x_coordinate, imgs[0].rows);
     Mat roi1;
     Mat img1_tmp;
+    // 在img1下使用rect1的坐標進行裁切
+    // 將裁剪完的結果放入roi1
     img1(rect1).copyTo(roi1);
+    // 暫存一張圖用來將切割部分長方形畫在上面
     img1.copyTo(img1_tmp);
-    tmpRect.push_back(rect1);
-    rois[0] = (tmpRect);
-    tmpRect.clear();
+    // 將裁切的長方形坐標放入tmp_rect
+    tmp_rect.push_back(rect1);
+    // rois用來存儲切割全部坐標，合併時需要這個參數來合併
+    rois[0] = (tmp_rect);
+    tmp_rect.clear();
+    // 在box畫出所需要的長方形，表示切割部分
     rectangle(img1_tmp, rect1, Scalar(0, 255, 255), 8);
     imwrite("./img_tmp/img1_draw.bmp", img1_tmp);
     string s_tmp1 = "./img_tmp/img1_draw.bmp";
@@ -570,11 +625,13 @@ void img1_cut(int img_num)
     img_ori_box_cut1->redraw();
 }
 
+/* 對圖片進行選擇比例切割 */
 void btn_cut_cb(Fl_Widget* w)
 {
     cut_image(str1, str2, str3, str4);
 }
 
+/* 存儲圖片 */
 void FileChooser_save_img_cb(Fl_File_Chooser* w, void* userdata)
 {
     const char* save_file_name = w->value();
@@ -593,18 +650,21 @@ void FileChooser_save_img_cb(Fl_File_Chooser* w, void* userdata)
     display->buffer(buffer);
 }
 
+/* 調整滑動條對 img1 與 img2 所重疊的比例 */
 void sld_img12_cb(Fl_Widget* w)
 {
     int tmp = (int)sld_img12->value();
     overlap12 = tmp / 100.0;
 }
 
+/* 調整滑動條對 img2 與 img3 所重疊的比例 */
 void sld_img23_cb(Fl_Widget* w)
 {
     int tmp = (int)sld_img23->value();
     overlap23 = tmp / 100.0;
 }
 
+/* 調整滑動條對 img3 與 img4 所重疊的比例 */
 void sld_img34_cb(Fl_Widget* w)
 {
     int tmp = (int)sld_img34->value();
@@ -613,12 +673,17 @@ void sld_img34_cb(Fl_Widget* w)
 
 int main()
 {
+    /* 建立 window */
     Fl_Double_Window* window = new Fl_Double_Window(1850, 1000, "HW4_609410151");
     window->begin();
 
+
+    /* 建立 window 最上面的 menu 選單 */
     menu_bar = new Fl_Menu_Bar(0, 0, 1850, 25);
     menu_bar->menu(menuitems);
 
+
+    /* 建立 button */
     Fl_Button* btn_load = new Fl_Button(55, 525, 100, 30, "Load");
     Fl_Button* btn_cut = new Fl_Button(55, 580, 100, 30, "Cut");
     Fl_Button* btn_merge = new Fl_Button(55, 640, 100, 30, "Merge");
@@ -627,41 +692,55 @@ int main()
     Fl_Button* btn_quit = new Fl_Button(55, 805, 100, 30, "Quit");
 
 
-
+    /* 建立 文字提示框 */
     buffer = new Fl_Text_Buffer();
     display = new Fl_Text_Display(15, 40, 200, 465);
-
+    // 並在文字提示框中初始化內容
     buffer->append("********************************\n");
     buffer->append("The program is created\n");
     buffer->append("********************************\n");
     display->buffer(buffer);
 
+
+    /* 建立四個 box 用來顯示讀取的原始圖片 */
     img_ori_box_ori1 = new Fl_Box(240, -60, 390, 390 /*, "img_ori_1"*/);
     img_ori_box_ori2 = new Fl_Box(640, -60, 390, 390/*, "img_ori_2" */);
     img_ori_box_ori3 = new Fl_Box(1040, -60, 390, 390/*, "img_ori_3" */);
     img_ori_box_ori4 = new Fl_Box(1440, -60, 390, 390/*, "img_ori_4" */);
 
-    sld_img12 = new Fl_Value_Slider(530, 270, 200, 30, "image1 & image2");
-    sld_img12->bounds(0, 100);
-    sld_img12->type(FL_HOR_NICE_SLIDER);
 
+    /* 建立 滑動條 用來調整不同圖片之間重疊比例 */
+    // sld_img12 為第一與第二張圖片
+    sld_img12 = new Fl_Value_Slider(530, 270, 200, 30, "image1 & image2");
+    // 設定最大值與最小值
+    sld_img12->bounds(0, 100);
+    // 建立水平形態
+    sld_img12->type(FL_HOR_NICE_SLIDER);
+    // sld_img23 為第二與第三張圖片
     sld_img23 = new Fl_Value_Slider(930, 270, 200, 30, "image2 & image3");
     sld_img23->bounds(0, 100);
     sld_img23->type(FL_HOR_NICE_SLIDER);
-
+    // sld_img34 為第三與第四張圖片
     sld_img34 = new Fl_Value_Slider(1330, 270, 200, 30, "image3 & image4");
     sld_img34->bounds(0, 100);
     sld_img34->type(FL_HOR_NICE_SLIDER);
 
+    /* 建立四個 box 用來顯示讀取的原始圖片進行分割比例 */
     img_ori_box_cut1 = new Fl_Box(240, 240, 390, 390 /*, "img_ori_1"*/);
     img_ori_box_cut2 = new Fl_Box(640, 240, 390, 390 /*, "img_ori_1"*/);
     img_ori_box_cut3 = new Fl_Box(1040, 240, 390, 390 /*, "img_ori_1"*/);
     img_ori_box_cut4 = new Fl_Box(1440, 240, 390, 390 /*, "img_ori_1"*/);
 
+
+    /* 建立四個 box 用來顯示合併的結果 */
     img_merge_box = new Fl_Box(400, 500, 1300, 500/*, "img_merge"*/);
 
+
+    /* 按下 reset 將 box 內圖片進行重置 */
     gui_box_reset(img_ori_box_ori1, img_ori_box_ori2, img_ori_box_ori3, img_ori_box_ori4, img_merge_box);
 
+
+    /* 對 button 與 滑動條進行監聽*/
     btn_load->callback(btn_load_cb);
     btn_merge->callback(btn_merge_cb);
     btn_reset->callback(btn_reset_cb);
