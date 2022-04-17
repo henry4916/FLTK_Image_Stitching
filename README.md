@@ -1,7 +1,11 @@
 # FLTK_Image_Stitching
 ## Computational-Photography_HW4
+
+### DEMO影片：
+[![IMAGE ALT TEXT](https://user-images.githubusercontent.com/72666141/163712172-34e2304c-2034-4d38-8a86-1f8a7bbf883d.PNG)](https://www.youtube.com/watch?v=16XAKHYw6kw")
+
 ### 環境設定：FLTK_1.3.5 opencv_3.1.16
-### 作業內容：
+### 實現內容：
 #### 1. 建立一個GUI介面，能夠顯示Load進來的圖片、影像拼接後的結果、Text panel以及可供操作的按鈕
 	* GUI介面：包含顯示讀取圖片、顯示執行結果、功能按鈕的配置、Text panel配置。
 ![image](https://user-images.githubusercontent.com/72666141/146067330-2a6c44c5-90c2-4ba4-8756-0cb35ec16057.png)
