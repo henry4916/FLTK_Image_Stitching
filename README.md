@@ -1,5 +1,5 @@
 # FLTK_Image_Stitching
-## Computational-Photography_HW4
+## 計算攝影學：應用圖學與影像技術_HW4
 
 ### DEMO影片：
 [![IMAGE ALT TEXT](https://user-images.githubusercontent.com/72666141/163712172-34e2304c-2034-4d38-8a86-1f8a7bbf883d.PNG)](https://www.youtube.com/watch?v=16XAKHYw6kw")
